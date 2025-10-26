@@ -11,7 +11,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Head = null;
         Tail = null;
     }
-
     // Option 1: Add
     public void Add(T newData)
     {
@@ -61,7 +60,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             current.Next = newNode;
         }
     }
-
     // Option 2
     public void DisplayForward()
     {
@@ -84,7 +82,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
         Console.WriteLine();
     }
-
     // Option 3
     public void DisplayBackward()
     {
@@ -107,7 +104,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
         Console.WriteLine();
     }
-
     // Option 4
     public void ReverseOrder()
     {
@@ -134,100 +130,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Tail = temp;
 
         Console.WriteLine("La lista ha sido reordenada descendentemente.");
-    }
-
-    // Aux
-    private void DisconnectNode(Node<T> target)
-    {
-        if (target.Prev != null)
-        {
-            target.Prev.Next = target.Next;
-        }
-        if (target.Next != null)
-        {
-            target.Next.Prev = target.Prev;
-        }
-    }
-
-    // Option 7
-    public bool Exists(T dataToFind)
-    {
-        Node<T>? current = Head;
-        while (current != null)
-        {
-            if (current.Data.CompareTo(dataToFind) == 0)
-            {
-                return true;
-            }
-            current = current.Next;
-        }
-        return false;
-
-    }
-
-    // Option 8
-    public bool RemoveOneOccurrence(T dataToRemove)
-    {
-        Node<T>? current = Head;
-        while (current != null)
-        {
-            if (current.Data.CompareTo(dataToRemove) == 0)
-            {
-                if (current == Head)
-                {
-                    Head = Head.Next;
-                    if (Head != null) Head.Prev = null;
-                    else Tail = null;
-                }
-                else if (current == Tail)
-                {
-                    Tail = Tail.Prev;
-                    Tail!.Next = null;
-                }
-
-                else
-                {
-                    DisconnectNode(current);
-                }
-                return true;
-            }
-            current = current.Next;
-        }
-        return false;
-    }
-
-    // Option 9
-    public int RemoveAllOccurrences(T dataToRemove)
-    {
-        int count = 0;
-        Node<T>? current = Head;
-
-        while (current != null)
-        {
-            Node<T>? nextNode = current.Next;
-
-            if (current.Data.CompareTo(dataToRemove) == 0)
-            {
-                if (current == Head)
-                {
-                    Head = current.Next;
-                    if (Head != null) Head.Prev = null;
-                    if (Head == null) Tail = null;
-                }
-                else if (current == Tail)
-                {
-                    Tail = current.Prev;
-                    if (Tail != null) Tail.Next = null;
-                }
-                else
-                {
-                    DisconnectNode(current);
-                }
-                count++;
-            }
-            current = nextNode; 
-        }
-        return count;
     }
     // Option 5
     public void DisplayModes()
@@ -266,7 +168,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
         Console.WriteLine($" (con {maxFrequency} ocurrencia(s)).");
     }
-
     // Option 6
     public void DisplayChart()
     {
@@ -292,9 +193,99 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 
         foreach (var pair in frequencies)
         {
-            string stars = new string('*', pair.Value); 
+            string stars = new string('*', pair.Value);
             Console.WriteLine($"{pair.Key} {stars}");
         }
         Console.WriteLine("------------------------------");
+    }
+    // Option 7
+    public bool Exists(T dataToFind)
+    {
+        Node<T>? current = Head;
+        while (current != null)
+        {
+            if (current.Data.CompareTo(dataToFind) == 0)
+            {
+                return true;
+            }
+            current = current.Next;
+        }
+        return false;
+
+    }
+    // Option 8
+    public bool RemoveOneOccurrence(T dataToRemove)
+    {
+        Node<T>? current = Head;
+        while (current != null)
+        {
+            if (current.Data.CompareTo(dataToRemove) == 0)
+            {
+                if (current == Head)
+                {
+                    Head = Head.Next;
+                    if (Head != null) Head.Prev = null;
+                    else Tail = null;
+                }
+                else if (current == Tail)
+                {
+                    Tail = Tail.Prev;
+                    Tail!.Next = null;
+                }
+
+                else
+                {
+                    DisconnectNode(current);
+                }
+                return true;
+            }
+            current = current.Next;
+        }
+        return false;
+    }
+    // Option 9
+    public int RemoveAllOccurrences(T dataToRemove)
+    {
+        int count = 0;
+        Node<T>? current = Head;
+
+        while (current != null)
+        {
+            Node<T>? nextNode = current.Next;
+
+            if (current.Data.CompareTo(dataToRemove) == 0)
+            {
+                if (current == Head)
+                {
+                    Head = current.Next;
+                    if (Head != null) Head.Prev = null;
+                    if (Head == null) Tail = null;
+                }
+                else if (current == Tail)
+                {
+                    Tail = current.Prev;
+                    if (Tail != null) Tail.Next = null;
+                }
+                else
+                {
+                    DisconnectNode(current);
+                }
+                count++;
+            }
+            current = nextNode; 
+        }
+        return count;
+    }
+    // Aux
+    private void DisconnectNode(Node<T> target)
+    {
+        if (target.Prev != null)
+        {
+            target.Prev.Next = target.Next;
+        }
+        if (target.Next != null)
+        {
+            target.Next.Prev = target.Prev;
+        }
     }
 }
