@@ -140,7 +140,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             return;
         }
 
-        // Use dictionary
         Dictionary<T, int> frequencies = new Dictionary<T, int>();
         Node<T>? current = Head;
 
