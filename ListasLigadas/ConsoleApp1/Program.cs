@@ -8,18 +8,18 @@
 
         do
         {
-            Console.WriteLine("\n--- Taller #5 - Listas Ligadas ---");
-            Console.WriteLine("1. Adicionar (Inserción ordenada)");
+            Console.WriteLine("Bienvenido/a!");
+            Console.WriteLine("Seleccione una opción para listar datos");
+            Console.WriteLine("\n1. Adicionar");
             Console.WriteLine("2. Mostar hacia adelante");
             Console.WriteLine("3. Mostar hacia atrás");
             Console.WriteLine("4. Ordenar descendentemente");
             Console.WriteLine("5. Mostrar la(s) moda(s)");
-            Console.WriteLine("6. Mostrar gráfico");
+            Console.WriteLine("6. Mostrar gráfico de ocurrencias");
             Console.WriteLine("7. Existe");
             Console.WriteLine("8. Eliminar una ocurrencia");
             Console.WriteLine("9. Eliminar todas las ocurrencias");
             Console.WriteLine("0. Salir");
-            Console.Write("Seleccione una opción: ");
 
             input = Console.ReadLine()!;
 
@@ -89,7 +89,7 @@
             else
             {
                 Console.WriteLine("Entrada no válida. Por favor, ingrese un número.");
-                option = -1; // Para que el bucle continúe
+                option = -1;
             }
         } while (option != 0);
     }

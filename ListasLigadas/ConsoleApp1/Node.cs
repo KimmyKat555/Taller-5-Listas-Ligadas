@@ -1,10 +1,9 @@
 ﻿public class Node<T>
 {
     public T Data { get; set; }
-    public Node<T>? Next { get; set; } // Referencia al siguiente nodo
-    public Node<T>? Prev { get; set; } // Referencia al nodo anterior
+    public Node<T>? Next { get; set; } 
+    public Node<T>? Prev { get; set; } 
 
-    // Constructor
     public Node(T data)
     {
         Data = data;

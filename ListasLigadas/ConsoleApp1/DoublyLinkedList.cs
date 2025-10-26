@@ -3,9 +3,8 @@ using System.Linq;
 
 public class DoublyLinkedList<T> where T : IComparable<T>
 {
-    // Propiedades de la lista
-    public Node<T>? Head { get; private set; } // Inicio de la lista
-    public Node<T>? Tail { get; private set; } // Fin de la lista
+    public Node<T>? Head { get; private set; } 
+    public Node<T>? Tail { get; private set; } 
 
     public DoublyLinkedList()
     {
@@ -13,12 +12,18 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Tail = null;
     }
 
-    // --- Opción 1: Adicionar (Inserción Ordenada Ascendente) ---
+    // Option 1: Add
     public void Add(T newData)
     {
-        Node<T> newNode = new Node<T>(newData);
+        T normalizedData = newData;
+        if (newData is string stringData)
+        {
+            normalizedData = (T)(object)stringData.ToLower()!;
+        }
 
-        // Caso 1: Lista vacía
+        Node<T> newNode = new Node<T>(normalizedData); 
+
+        // Case 1
         if (Head == null)
         {
             Head = newNode;
@@ -26,7 +31,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             return;
         }
 
-        // Caso 2: Inserción al inicio (si el nuevo dato es menor o igual a la cabeza)
+        // Case 2
         if (newNode.Data.CompareTo(Head.Data) <= 0)
         {
             newNode.Next = Head;
@@ -35,25 +40,21 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             return;
         }
 
-        // Caso 3: Búsqueda de la posición intermedia o final
+        // Case 3
         Node<T> current = Head;
-        // Avanza mientras haya un siguiente nodo Y el siguiente sea menor que el nuevo
+
         while (current.Next != null && current.Next.Data.CompareTo(newNode.Data) < 0)
         {
             current = current.Next;
         }
-
-        // Inserción después de 'current'
         if (current.Next == null)
         {
-            // Inserción al final, actualiza la cola
             current.Next = newNode;
             newNode.Prev = current;
             Tail = newNode;
         }
         else
         {
-            // Inserción en el medio
             newNode.Next = current.Next;
             newNode.Prev = current;
             current.Next.Prev = newNode;
@@ -61,7 +62,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
     }
 
-    // --- Opción 2: Mostrar hacia adelante ---
+    // Option 2
     public void DisplayForward()
     {
         if (Head == null)
@@ -84,7 +85,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Console.WriteLine();
     }
 
-    // --- Opción 3: Mostrar hacia atrás ---
+    // Option 3
     public void DisplayBackward()
     {
         if (Tail == null)
@@ -94,7 +95,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
 
         Console.Write("LISTA (Atrás): ");
-        Node<T>? current = Tail; // Comienza desde la cola
+        Node<T>? current = Tail; 
         while (current != null)
         {
             Console.Write(current.Data);
@@ -102,12 +103,12 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             {
                 Console.Write(" <- ");
             }
-            current = current.Prev; // Retrocede usando 'Prev'
+            current = current.Prev;
         }
         Console.WriteLine();
     }
 
-    // --- Opción 4: Ordenar descendentemente (invertir la lista) ---
+    // Option 4
     public void ReverseOrder()
     {
         if (Head == null)
@@ -119,18 +120,15 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Node<T>? current = Head;
         Node<T>? temp = null;
 
-        // 1. Recorrer la lista e intercambiar Next por Prev
         while (current != null)
         {
-            temp = current.Prev;       // Guarda el puntero anterior
-            current.Prev = current.Next; // El puntero anterior ahora es el siguiente
-            current.Next = temp;       // El puntero siguiente ahora es el anterior
+            temp = current.Prev;   
+            current.Prev = current.Next; 
+            current.Next = temp;       
 
-            // Avanza al siguiente nodo (que ahora está en current.Prev, ¡es el truco!)
             current = current.Prev;
         }
 
-        // 2. Intercambiar Head y Tail para reflejar el nuevo inicio/fin de la lista
         temp = Head;
         Head = Tail;
         Tail = temp;
@@ -138,22 +136,20 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Console.WriteLine("La lista ha sido reordenada descendentemente.");
     }
 
-    // --- Lógica auxiliar para desconectar un nodo ---
+    // Aux
     private void DisconnectNode(Node<T> target)
     {
-        // Reconección del nodo anterior con el sucesor
         if (target.Prev != null)
         {
             target.Prev.Next = target.Next;
         }
-        // Reconección del nodo sucesor con el anterior
         if (target.Next != null)
         {
             target.Next.Prev = target.Prev;
         }
     }
 
-    // --- Opción 7: Existe ---
+    // Option 7
     public bool Exists(T dataToFind)
     {
         Node<T>? current = Head;
@@ -161,14 +157,15 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         {
             if (current.Data.CompareTo(dataToFind) == 0)
             {
-                return true; // Encontrado
+                return true;
             }
             current = current.Next;
         }
-        return false; // No encontrado
+        return false;
+
     }
 
-    // --- Opción 8: Eliminar una ocurrencia ---
+    // Option 8
     public bool RemoveOneOccurrence(T dataToRemove)
     {
         Node<T>? current = Head;
@@ -176,32 +173,30 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         {
             if (current.Data.CompareTo(dataToRemove) == 0)
             {
-                // Manejar la eliminación de la cabeza
                 if (current == Head)
                 {
                     Head = Head.Next;
                     if (Head != null) Head.Prev = null;
-                    else Tail = null; // Lista vacía
+                    else Tail = null;
                 }
-                // Manejar la eliminación de la cola
                 else if (current == Tail)
                 {
                     Tail = Tail.Prev;
                     Tail!.Next = null;
                 }
-                // Manejar caso intermedio
+
                 else
                 {
                     DisconnectNode(current);
                 }
-                return true; // Éxito: solo eliminamos el primero
+                return true;
             }
             current = current.Next;
         }
-        return false; // No se encontró el elemento
+        return false;
     }
 
-    // --- Opción 9: Eliminar todas las ocurrencias ---
+    // Option 9
     public int RemoveAllOccurrences(T dataToRemove)
     {
         int count = 0;
@@ -209,12 +204,10 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 
         while (current != null)
         {
-            // Guarda el siguiente nodo ANTES de una posible eliminación
             Node<T>? nextNode = current.Next;
 
             if (current.Data.CompareTo(dataToRemove) == 0)
             {
-                // Lógica de eliminación, similar a RemoveOne, pero sin salir
                 if (current == Head)
                 {
                     Head = current.Next;
@@ -232,12 +225,11 @@ public class DoublyLinkedList<T> where T : IComparable<T>
                 }
                 count++;
             }
-            current = nextNode; // Continuar el recorrido
+            current = nextNode; 
         }
         return count;
     }
-
-    // --- Opción 5: Mostrar la(s) moda(s) ---
+    // Option 5
     public void DisplayModes()
     {
         if (Head == null)
@@ -246,11 +238,10 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             return;
         }
 
-        // Usa un diccionario para contar las frecuencias
+        // Use dictionary
         Dictionary<T, int> frequencies = new Dictionary<T, int>();
         Node<T>? current = Head;
 
-        // 1. Contar frecuencias
         while (current != null)
         {
             if (frequencies.ContainsKey(current.Data))
@@ -260,10 +251,8 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             current = current.Next;
         }
 
-        // 2. Encontrar la frecuencia máxima
         int maxFrequency = frequencies.Values.Max();
 
-        // 3. Imprimir las modas (elementos con la frecuencia máxima)
         Console.Write("La(s) moda(s) son: ");
         bool isFirst = true;
         foreach (var pair in frequencies)
@@ -278,7 +267,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         Console.WriteLine($" (con {maxFrequency} ocurrencia(s)).");
     }
 
-    // --- Opción 6: Mostrar gráfico ---
+    // Option 6
     public void DisplayChart()
     {
         if (Head == null)
@@ -287,7 +276,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             return;
         }
 
-        // Recalcula frecuencias (o usa la misma lógica que DisplayModes)
         Dictionary<T, int> frequencies = new Dictionary<T, int>();
         Node<T>? current = Head;
 
@@ -301,10 +289,10 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
 
         Console.WriteLine("\n--- Gráfico de Ocurrencias ---");
-        // Imprime cada elemento seguido de su cantidad de asteriscos
+
         foreach (var pair in frequencies)
         {
-            string stars = new string('*', pair.Value); // Crea la cadena de asteriscos
+            string stars = new string('*', pair.Value); 
             Console.WriteLine($"{pair.Key} {stars}");
         }
         Console.WriteLine("------------------------------");
